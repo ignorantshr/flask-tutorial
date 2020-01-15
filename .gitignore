@@ -1,0 +1,4 @@
+.idea/
+venv/
+instance/
+flaskr/__pycache__/
