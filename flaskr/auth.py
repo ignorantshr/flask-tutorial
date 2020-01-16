@@ -1,6 +1,6 @@
 # author        :   ignorantshr
 # create_date   :   2020/01/15 3:43 PM
-# description   :   authentication Blueprint
+# description   :   authentication blueprint
 
 import functools
 
