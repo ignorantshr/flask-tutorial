@@ -48,25 +48,25 @@ def login():
         password = request.form.get('password', None)
         db = get_db()
 
-        if not username or not password:
+        if username is None or password is None or \
+                        len(username) == 0 or len(password) == 0:
             error_msg = 'username and password is required.'
             flash(error_msg)
-            return redirect(url_for('auth.login'))
+        else:
+            user = db.execute('SELECT * FROM user WHERE username = ?',
+                              (username,)).fetchone()
 
-        user = db.execute('SELECT * FROM user WHERE username = ?', (username,))\
-                 .fetchone()
+            if user is None:
+                error_msg = 'Incorrect username'
+            elif not check_password_hash(user['password'], password):
+                error_msg = 'Incorrect password'
 
-        if user is None:
-            error_msg = 'Incorrect username'
-        elif not check_password_hash(user['password'], password):
-            error_msg = 'Incorrect password'
+            if error_msg is None:
+                session.clear()
+                session['user_id'] = user['id']
+                return redirect(url_for('index'))
 
-        if error_msg is None:
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('index'))
-
-        flash(error_msg)
+            flash(error_msg)
 
     return render_template('auth/login.html')
 
