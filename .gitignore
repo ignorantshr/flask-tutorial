@@ -1,6 +1,10 @@
 .idea/
 venv/
+build-venv/
 instance/
-flaskr/__pycache__/
+__pycache__/
 *.egg-info/
 .coverage
+
+build/
+dist/
